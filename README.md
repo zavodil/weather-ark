@@ -91,25 +91,27 @@ echo '{"city":"Tokyo","units":"metric"}' | \
 
 ```bash
 # Test weather for any city right now (no setup needed!)
-near call offchainvm.testnet request_execution '{
-  "code_source": {
-    "repo": "https://github.com/zavodil/weather-ark",
-    "commit": "main",
-    "build_target": "wasm32-wasip2"
-  },
-  "secrets_ref": {
-    "repo": "github.com/zavodil/weather-ark",
-    "profile": "default",
-    "account_id": "zavodil2.testnet"
-  },
-  "resource_limits": {
-    "max_instructions": 50000000000,
-    "max_memory_mb": 128,
-    "max_execution_seconds": 30
-  },
-  "input_data": "{\"city\":\"London\",\"units\":\"metric\"}"
-}' --accountId your.testnet --deposit 0.1
+near contract call-function as-transaction outlayer.testnet request_execution json-args '{
+    "code_source": {
+      "repo": "https://github.com/zavodil/weather-ark",
+      "commit": "main",
+      "build_target": "wasm32-wasip2"
+    },
+    "secrets_ref": {
+      "repo": "github.com/zavodil/weather-ark",
+      "profile": "default",
+      "account_id": "zavodil2.testnet"
+    },
+    "resource_limits": {
+      "max_instructions": 50000000000,
+      "max_memory_mb": 128,
+      "max_execution_seconds": 30
+    },"response_format": "Json",
+    "input_data": "{\"city\":\"London\",\"units\":\"metric\"}"
+  }' prepaid-gas '100.0 Tgas' attached-deposit '0.1 NEAR' sign-as your-account.testnet network-config testnet sign-with-keychain send
 ```
+
+Execution result: https://testnet.nearblocks.io/txns/HreK5ResxyQpRznteJLbyPWQvZMbCyuSvuqLnRr2LhtH
 
 **Try different cities:**
 ```bash
@@ -156,7 +158,7 @@ npm run dev
 #### Step 2: Request Execution
 
 ```bash
-near call offchainvm.testnet request_execution '{
+near call outlayer.testnet request_execution '{
   "code_source": {
     "repo": "https://github.com/your-username/your-repo",
     "commit": "main",
@@ -181,7 +183,7 @@ near call offchainvm.testnet request_execution '{
 
 ```bash
 # Get execution request ID from previous command output
-near view offchainvm.testnet get_request '{"request_id": 123}'
+near view outlayer.testnet get_request '{"request_id": 123}'
 ```
 
 ## Example Output
@@ -209,7 +211,7 @@ near view offchainvm.testnet get_request '{"request_id": 123}'
          ↓
 ┌─────────────────────────────┐
 │   OutLayer Contract         │
-│   (offchainvm.testnet)      │
+│   (outlayer.testnet)      │
 │   - Stores encrypted secrets│
 └────────┬────────────────────┘
          │
