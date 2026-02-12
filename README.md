@@ -1,5 +1,7 @@
 # Weather Ark - OpenWeather API Integration
 
+> **[Full documentation](https://outlayer.fastnear.com/docs/examples#weather-ark)** on the OutLayer dashboard.
+
 WASI component that fetches real-time weather data from OpenWeather API.
 
 > 🚀 **Ready to test on NEAR Testnet!** Pre-configured secrets available at `github.com/zavodil/weather-ark` (profile: `default`, owner: `zavodil2.testnet`). Skip to [Quick Start](#quick-start-testnet-with-pre-configured-secrets-) to try it now!
